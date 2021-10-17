@@ -11,7 +11,7 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOptions))
 router.get('/', (req, res) => {
     res.status(200).json({
         status:200,
-        message:'welcome to awesomity bacckend challenge'
+        message:'welcome to awesomity backend challenge'
     })
 })
 
