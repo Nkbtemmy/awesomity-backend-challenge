@@ -164,8 +164,8 @@ class employeeControllers {
     
     static async search(req,res){
       try {
-        const {position,name,email,phone,code} = req.body;
-        await User.find({$or: [{ name: name },{ position: position },{ phone: phone },{ code: code }, { email: email }]}).then((result)=>{
+        const {search} = req.body;
+        await User.find({$or: [{ name:search },{ position: search },{ phone: search },{ code: search }, { email: search }]}).then((result)=>{
           res.status(201).json({
             message:"List of employees found",
             status:201,

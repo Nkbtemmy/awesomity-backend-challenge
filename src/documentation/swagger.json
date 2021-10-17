@@ -231,6 +231,86 @@
           }
         }
       },
+      "/api/v1/user/forgetPassword": {
+        "post": {
+          "tags": ["MANAGER"],
+          "summary": "Forgot Password",
+          "parameters": [
+            {
+              "name": "username/email",
+              "in": "body",
+              "description": "The user credentials for login",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  }
+                }
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "ok"
+            },
+            "400": {
+              "description": "failed to send email."
+            }
+          }
+        }
+      },
+      "/api/v1/user/resetPassword/{token}": {
+        "put": {
+          "tags": ["MANAGER"],
+          "summary": "reset Password",
+          "parameters": [
+            {
+              "name": "token",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "description":" token provided in link"
+            },
+            {
+              "name": "token",
+              "in": "body",
+              "required": true,
+              "schema":{
+               "type": "object",
+               "properties":{
+                  "password":{
+                    "type": "string",
+                    "example": "*********"
+                  },
+                  "confirm_password":{
+                    "type": "string",
+                    "example": "*********"
+                  }
+                }
+              }
+            }
+          ],
+          "produces": ["application/json"],
+          "responses": {
+            "200": {
+              "description": "Email send successfully"
+            },
+            "400": {
+              "description": "failed to change password."
+            },
+            "404": {
+              "description": "Unauthorised user."
+            },
+            "401":{
+              "description":"incorrect response"
+            }
+          }
+        }
+      },
       "/api/v1/user/create": {
         "post": {
           "tags": ["MANAGER"],
@@ -498,7 +578,7 @@
           "tags": [
             "MANAGER"
           ],
-          "summary": " search users user's data from the System",
+          "summary": " search MANAGER user's data from the System",
           "parameters": [
             {
               "in": "header",
@@ -515,21 +595,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
+                  "search": {
                     "type": "string",
                     "example": "Emmanuel NKUBITO"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "0787311654"
-                  },
-                 "code": {
-                    "type": "string",
-                    "example": "EMP1233"
-                  },
-                  "email": {
-                    "type": "string",
-                    "example": "emmanuelnkubito2@gmail.com"
                   }
                 }
               }

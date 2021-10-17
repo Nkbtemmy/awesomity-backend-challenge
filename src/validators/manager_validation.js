@@ -13,7 +13,7 @@ export default class managerValidations {
             confirm_password: Joi.string().valid(Joi.ref("password")).required().messages({
               "any.required": 'confirm password is required',
               "any.only": "comfirm password must be same as password"
-          }),
+            }),
           });
           const authError = userValidationSchema.validate(req.body);
           if (authError.error) {
@@ -37,5 +37,23 @@ export default class managerValidations {
             });
         }
         next();
-    };  
+    }; 
+    
+    static async resetPassword(req,res,next){
+        const resetPasswords = Joi.object().keys({
+            password: Joi.string().min(8).required(),
+            confirm_password: Joi.string().valid(Joi.ref("password")).required().messages({
+                "any.required": 'confirm password is required',
+                "any.only": "comfirm password must be same as password"
+            }),
+        });
+        const { error } = resetPasswords.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+            status: 400,
+            message: error.details[0].message.replace(/"/g, ''),
+            });
+        }
+        next();
+    }
 }

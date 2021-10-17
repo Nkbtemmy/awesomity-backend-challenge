@@ -8,5 +8,7 @@ app.post ('/signUp',managerValidations.signUp,checker.isExist,managerControllers
 app.put("/verification/:token",checker.verifyValidLink,managerControllers.emailVerification);
 app.post('/login',managerValidations.login,checker.isUserFound,checker.isVerified,managerControllers.login);
 app.post('/logout',checker.verifyToken,checker.isLoggedIn,managerControllers.logout);
+app.put('/resetPassword/:token',managerValidations.resetPassword,checker.verifyValidLink,managerControllers.resetPassword);
+app.post('/forgetPassword',checker.isUserFound,managerControllers.forgetPassword);
 
 export default app;

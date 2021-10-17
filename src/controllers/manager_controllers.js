@@ -45,6 +45,7 @@ export default class managerControllers{
 
     static async emailVerification(req, res) {
         try {
+          const user_id= req.id;
           User.findByIdAndUpdate(
             { _id:req.id },
             { isConfirmed: true },
@@ -133,5 +134,72 @@ export default class managerControllers{
             });
         }
     }
+
+    static async forgetPassword(req, res) {
+      const {email} = req.body;
+      await User.findOne({email}).then(async(obj)=>{
+        const token = signinToken({ id:obj._id, email: obj.email , password: obj.password },"2h");    
+        const options ={
+          email,
+          subject: "Task force reset Password link",
+          message:`<h2><i> click this link below to reset your password:</i>
+          <a href=${req.protocol}://${req.get("host")}/resetPassword/${token}/>
+           <span style="color:blue"> Click Here </span> </h2>  
+           <br /> <br /> <span style="color:red"> 
+           Remember that this link will be expired in two hours from now</span>`,
+        }
+        //console.log("token",)
+        await sendEmail(options); 
+          res.status(200).json({
+            message: "email has been sent please change your password",
+            token: token,
+          });
+        }).catch((error)=>{
+        res.status(404).json({
+          message:"can not find this employee",
+          status:404,
+          errorMessage:error.message
+        })
+      })
+
+    }
+  
+    
+    static async resetPassword(req, res) {
+      try{
+        const { password } = req.body;
+
+        const cipher = bcrypt.hashSync(password, 10);
+        const user_id = req.id;
+        User.findByIdAndUpdate(
+          user_id,
+          { password: cipher },
+          function(err, result) {
+            if (err) {
+              res.status(401).json({
+                status:401,
+                message:"password reset fails",
+                message:err.message
+              });
+            } else {
+              result.password = undefined;
+              res.status(200).json({
+                  status:200,
+                  message:'password reset successfull',
+                  user:result
+              })
+            }
+          }
+        );
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({
+          status: 500,
+          message: "Server Error",
+          errorMessage:error.message,
+        });
+      }
+    }
+    
     
 }
