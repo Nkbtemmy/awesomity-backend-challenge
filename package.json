@@ -1,0 +1,41 @@
+{
+  "name": "awesomity_backend_challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "build": "babel src --out-dir dist --source-maps inline --copy-files",
+    "start": "npm run build && node -r esm  ./dist/server.js",
+    "dev": "nodemon -r esm src/server.js",
+    "test": "NODE_ENV=test npm run migrate:reset && NODE_ENV=test npm run seeding && NODE_ENV=test nyc mocha --recursive --require @babel/polyfill --require @babel/register ./src/test/*.js --timeout 500000000 --exit"
+  },
+  "author": "Mr. NKUBITO",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^9.1.2",
+    "mongoose": "^6.0.10",
+    "nodemailer": "^6.7.0",
+    "nyc": "^15.1.0",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "engines": {
+    "node": "^16",
+    "npm": "^7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}

@@ -1,0 +1,585 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0.",
+      "title": "Awesomity APIs Documentation",
+      "description": ""
+    },
+    "tags": [
+      {
+        "name": "Awesommity APIs Documentation"
+      }
+    ],
+     "consumes": ["application/json"],
+     "produces": ["application/json"],
+      "paths": {
+       "/": {
+          "get": {
+              "tags": ["Default"],
+              "summary": "Default message on server",
+              "operationId": "",
+              "requestBody": {
+              "description": "default router should return message",
+              "content": {
+                  "application/json": {
+                  "schema": {}
+                  },
+                  "application/xml": {
+                  "schema": {}
+                  }
+              },
+              "required": false
+              },
+              "responses": {
+              "200": {
+                  "description": "Message of successful request",
+                  "content": {}
+              }
+              },
+              "x-codegen-request-body-name": "body"
+          }
+      },
+      "/api/v1/user/signup": {
+        "post": {
+          "tags": ["MANAGER"],
+          "summary": "manager signup",
+          "description": "",
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "user information",
+              "in": "body",
+              "description": "The user information",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Emmanuel NKUBITO"
+                  },
+                  "national_ID": {
+                    "type": "string",
+                    "example": "1199880064253031"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "0787311654"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "example": "12/25/1998"
+                  },"status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin123"
+                  },
+                  "confirm_password": {
+                    "type": "string",
+                    "example": "admin123"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User created successfully"
+            },
+            "400": {
+              "description": "Incorrect information"
+            },
+            "403": {
+              "description": "Email is already in use"
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "/api/v1/user/verification/{emailVerificationToken}": {
+        "put": {
+          "tags": ["MANAGER"],
+          "summary": "Verifymanager's email  ",
+          "description": "",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "emailVerificationToken",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User confirmed Successfully!"
+            },
+            "401": {
+              "description": "Invalid token"
+            },
+            "404": {
+              "description": "user  account doesn't exist"
+            }
+          }
+        }
+      },
+      "/api/v1/user/login": {
+        "post": {
+          "tags": ["MANAGER"],
+          "summary": "Log in manager into the system",
+          "operationId": "loginUser",
+          "parameters": [
+            {
+              "name": "username/email",
+              "in": "body",
+              "description": "The user credentials for login",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin123"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "successful login",
+              "headers": {
+                "X-Rate-Limit": {
+                  "description": "calls per hour allowed by the user",
+                  "schema": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                },
+                "X-Expires-After": {
+                  "description": "date in UTC when token expires",
+                  "schema": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              },
+              "content": {
+                "application/xml": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid username/password supplied",
+              "content": {}
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "/api/v1/user/logout": {
+        "post": {
+          "tags": ["MANAGER"],
+          "summary": "Logout manager from the System",
+          "operationId": "logoutUser",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "description": "logged in user can logout from System",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "token":{
+                    "type":"string"
+                  } 
+               }
+             }
+           }
+          ],
+          "responses": {
+            "200": {
+              "description": "You Logged out sucessfully"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            }
+          }
+        }
+      },
+      "/api/v1/user/create": {
+        "post": {
+          "tags": ["MANAGER"],
+          "summary": "create new employee",
+          "description": "",
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "name": "user information",
+              "in": "body",
+              "description": "The user information",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Emmanuel NKUBITO"
+                  },
+                  "national_ID": {
+                    "type": "string",
+                    "example": "1199880064253031"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "0787311654"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "example": "12/25/1998"
+                  },"status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                  },"position": {
+                    "type": "string",
+                    "example": "DEVELOPER"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User created successfully"
+            },
+            "400": {
+              "description": "Incorrect information"
+            },
+            "403": {
+              "description": "Email is already in use"
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "/api/v1/user/edit/{id}": {
+        "put": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " edit existed employee in the System",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "id of user"
+            },
+            {
+              "name": "user information",
+              "in": "body",
+              "description": "The user information",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Emmanuel NKUBITO"
+                  },
+                  "national_ID": {
+                    "type": "string",
+                    "example": "1199880064253031"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "0787311654"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "ACTIVE"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User retreived sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "/api/v1/user/suspend/{id}": {
+        "put": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " suspend employee from the System",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "id of user"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User retreived sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        }
+      },
+      "/api/v1/user/activate/{id}": {
+        "put": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " activate employee from the System",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "id of user"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User retreived sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        }
+      },
+      "/api/v1/user/delete/{id}": {
+        "delete": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " delete employee from the System",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "id of user"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User retreived sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        }
+      },
+      "/api/v1/user/search": {
+        "post": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " search users user's data from the System",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "name": "user information",
+              "in": "body",
+              "description": "The user information",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Emmanuel NKUBITO"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "0787311654"
+                  },
+                 "code": {
+                    "type": "string",
+                    "example": "EMP1233"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "emmanuelnkubito2@gmail.com"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "User retreived sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        }
+      },
+      "/api/v1/user/list": {
+        "get": {
+            "tags": ["MANAGER"],
+            "summary": "list of all users in system",
+            "operationId": "",
+            "requestBody": {
+            "description": "List of employees",
+            "content": {
+                "application/json": {
+                "schema": {}
+                },
+                "application/xml": {
+                "schema": {}
+                }
+            },
+            "required": false
+            },
+            "responses": {
+            "200": {
+                "description": "Message of successful request",
+                "content": {}
+            }
+            },
+            "x-codegen-request-body-name": "body"
+        }
+    }
+  }
+}
