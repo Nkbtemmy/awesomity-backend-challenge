@@ -10,6 +10,10 @@
 * Clone the repository
 * Install packages by running `npm install`
 
+### Setting up environoment variables
+- open cmd type in `powershell` if you are using windows pc
+- copy and paste this commands `$env:NODE_ENV="production"` , `$env:NODE_ENV="test"`, `$env:NODE_ENV="development"`
+
 ### Dotenv setup
   * Create ``` .env ``` in project root directory
   * Take a look at the ``` .env.example ```  file which is in the project root directory to have a clue on environment variables that are being used in this project
@@ -22,7 +26,7 @@
 - - Run ```npm run start``` to start deployment server
 - - Run ```npm run test``` to test
 # checking manager Logs
-- Navigate to project folder src and enter in logs you will find in file called `access.log` open it you will see all manager logs 
+- Navigate to project folder src and enter in `footprint` you will find in file called `access.log` open it you will see all manager logs 
 # Procuduction Link
 [production link](https://task-force-backend-challenge.herokuapp.com/)
 

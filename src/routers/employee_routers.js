@@ -12,7 +12,7 @@ app.delete('/delete/:id',userValidations.edit,UserControllers.delete)
 app.post('/search',checker.isLoggedIn,checker.isItManager,UserControllers.search)
 
 //test
-// app.get('/list',UserControllers.getAllEmployees)
+app.get('/list',UserControllers.getAllEmployees)
 //app.get('/:id',UserControllers.getOneEmployee)
 
 export default app;

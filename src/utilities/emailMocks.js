@@ -21,7 +21,7 @@ class emailMocks{
             <h2>hello Sir/Madam<h2><br>
             <p>Thanks for registering on our site. Please click the link below to verify your account.</p>
             <p><a href="${newUrl}" style="font-size:12px">${newUrl}</a></p>
-                    <p style="color:red;font-size:5px">Please note that if you do not verify your email address within 3 days, the verification code above will expire and you will need to re-register again.</p>
+                    <p style="color:red;font-size:15px">Please note that if you do not verify your email address within 3 days, the verification code above will expire and you will need to re-register again.</p>
             </div>
         </div>
     `

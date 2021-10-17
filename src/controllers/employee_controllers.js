@@ -186,27 +186,27 @@ class employeeControllers {
     }
 
 
-    // static async getAllEmployees(req,res){
-    //   try {
-    //     await User.find().then((result)=>{
-    //       res.status(201).json({
-    //         message:"List of employees found",
-    //         status:201,
-    //         employees:result
-    //       })
-    //     }).catch((error)=>{
-    //      res.status(501).json({
-    //       message:error.message,
-    //       status:501,
-    //      })
-    //     })
-    //   } catch (error) {
-    //     res.status(500).json({
-    //       message:error.message,
-    //       status:500
-    //     })
-    //   }
-    // }
+    static async getAllEmployees(req,res){
+      try {
+        await User.find().then((result)=>{
+          res.status(201).json({
+            message:"List of employees found",
+            status:201,
+            employees:result
+          })
+        }).catch((error)=>{
+         res.status(501).json({
+          message:error.message,
+          status:501,
+         })
+        })
+      } catch (error) {
+        res.status(500).json({
+          message:error.message,
+          status:500
+        })
+      }
+    }
     // static async getOneEmployee(req,res){
     //   try {
     //    await User.findById(req.params.id)
