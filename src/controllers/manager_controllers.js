@@ -9,7 +9,7 @@ export default class managerControllers{
    
     static async signUp(req,res) {
         try{ 
-            const code = codeGenerator();
+            const code = await codeGenerator();
             const {name,national_ID,phone,date_of_birth,email,password} = req.body; 
             const cipher = bcrypt.hashSync(password, 10);
             await User.create({ name,national_ID,code,phone,date_of_birth,email,status:"ACTIVE",position:"MANAGER",password:cipher,}).then(async(newUser)=>{

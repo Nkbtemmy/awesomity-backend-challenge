@@ -13,12 +13,15 @@ const user_schema = new Schema(
         trim: true,
         type: Number,
         required: true,
+        unique: true,
+
       },
     code: {
       desc: "The user's generated code.",
       trim: true,
       type: String,
       required: true,
+      unique: true,
     },
     phone: {
       desc: "The user's phone.",

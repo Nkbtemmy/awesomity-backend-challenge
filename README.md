@@ -21,7 +21,8 @@
 - - Run ```npm run dev ``` to start development server
 - - Run ```npm run start``` to start deployment server
 - - Run ```npm run test``` to test
-
+# checking manager Logs
+- Navigate to project folder src and enter in logs you will find in file called `access.log` open it you will see all manager logs 
 # Procuduction Link
 [production link](https://task-force-backend-challenge.herokuapp.com/)
 
