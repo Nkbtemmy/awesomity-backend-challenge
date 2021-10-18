@@ -4,6 +4,8 @@ import { codeGenerator } from "../utilities/codeGenerator";
 import { User } from "../database/schema/employee";
 import { sendEmail } from "../utilities/sendEmail";
 import emailMocks from "../utilities/emailMocks";
+const reader = require('xlsx')
+
 
 export default class managerControllers{
    
@@ -45,7 +47,6 @@ export default class managerControllers{
 
     static async emailVerification(req, res) {
         try {
-          const user_id= req.id;
           User.findByIdAndUpdate(
             { _id:req.id },
             { isConfirmed: true },
@@ -192,7 +193,7 @@ export default class managerControllers{
           }
         );
       } catch (error) {
-        console.log(error);
+   
         res.status(500).json({
           status: 500,
           message: "Server Error",
@@ -200,6 +201,46 @@ export default class managerControllers{
         });
       }
     }
-    
-    
+
+    static async upload(req,res){
+      const doc = req.files.document;
+      if(!doc){
+        res.status(404).json({
+          message:"upload document first",
+          status:404,
+        })
+      }
+      const file = reader.readFile(`${doc.tempFilePath}`)
+      let data = []
+      
+      const sheets = file.SheetNames
+      
+      for(let i = 0; i < sheets.length; i++){
+        const temp = reader.utils.sheet_to_json(file.Sheets[file.SheetNames[i]])
+        temp.forEach(async(resp) => {
+          if(resp.email != undefined){
+            data.push(resp.email);
+          }
+        })
+      }
+
+      data.forEach(async(email)=>{
+        let option ={
+          email,
+          subject:"DEVELOPER Team",
+          message:"Thank you for being with us in our society"
+        }
+        await sendEmail(option)
+      })
+      if(data.length){
+        res.status(201).send({
+          status:201,
+          message:"emails send to employees"
+        })
+        res.status(401).send({
+          status:401,
+          message:"emails doesn't send to employees because no emails founds in doc"
+        })
+      }
+    }
 }

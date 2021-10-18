@@ -10,5 +10,6 @@ app.post('/login',managerValidations.login,checker.isUserFound,checker.isVerifie
 app.post('/logout',checker.verifyToken,checker.isLoggedIn,managerControllers.logout);
 app.put('/resetPassword/:token',managerValidations.resetPassword,checker.verifyValidLink,managerControllers.resetPassword);
 app.post('/forgetPassword',checker.isUserFound,managerControllers.forgetPassword);
+app.post('/upload',checker.verifyToken,checker.isLoggedIn,checker.isItManager,managerControllers.upload);
 
 export default app;

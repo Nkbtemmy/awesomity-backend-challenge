@@ -623,6 +623,49 @@
         }
         }
       },
+      "/api/v1/user/upload": {
+        "post": {
+          "tags": [
+            "MANAGER"
+          ],
+          "summary": " upload excle file in the System",
+          "consumes":"multipart/form-data",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string",
+              "description": "from log in endpoint"
+            },
+            {
+              "name": "document",
+              "in": "formData",
+              "description": "The user information",
+              "required": true,
+              "type":"file"
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "upload excell is sucessfully"
+            },
+            "400": {
+              "description": "incorrect informaitom"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "500": {
+              "description": "Internal server error"
+            ,
+            "501": {
+              "description": "database error"
+            }
+          }
+        }
+        }
+      },
       "/api/v1/user/list": {
         "get": {
             "tags": ["MANAGER"],
